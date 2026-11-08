@@ -45,10 +45,13 @@ describe('routine', () => {
     const r = buildRoutine(games, [session(r0[0]!.gameId, now - DAY)], now);
     expect(r.every((i) => !i.done)).toBe(true);
   });
-  it('works with the single available game in phase one', () => {
-    const r = buildRoutine(availableGames(), [], now);
-    expect(r.map((i) => i.gameId)).toEqual(['memory-pairs']);
-    expect(routineMinutes(r, availableGames())).toBe(4);
+  it('builds a three-game routine from the playable games', () => {
+    const games = availableGames();
+    expect(games.length).toBeGreaterThanOrEqual(7);
+    const r = buildRoutine(games, [], now);
+    expect(r).toHaveLength(3);
+    expect(new Set(r.map((i) => i.gameId)).size).toBe(3);
+    expect(routineMinutes(r, games)).toBeGreaterThanOrEqual(12);
   });
 });
 

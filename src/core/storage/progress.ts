@@ -9,6 +9,15 @@ export async function getLevel(meta: GameMeta): Promise<number> {
   return clampLevel(rec?.level ?? meta.levels.start, meta.levels);
 }
 
+/** Manual level change (from the instructions screen). */
+export async function setLevel(meta: GameMeta, level: number): Promise<number> {
+  const db = await getDB();
+  const prev = await db.get('progress', meta.id);
+  const next: ProgressRecord = { gameId: meta.id, level: clampLevel(level, meta.levels), sessions: prev?.sessions ?? 0, updatedAt: Date.now() };
+  await db.put('progress', next);
+  return next.level;
+}
+
 /**
  * Records a finished session, adapts the level for next time and clears any
  * saved mid-game state. Returns the stored session.

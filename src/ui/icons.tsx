@@ -82,6 +82,8 @@ export function GameIcon({ id, size = 34 }: { id: IconId; size?: number }) {
   switch (id) {
     case 'cards':
       return <svg {...s} viewBox="0 0 48 48" strokeWidth={2.6}><rect x="7" y="9" width="15" height="20" rx="3" /><rect x="26" y="19" width="15" height="20" rx="3" fill="var(--c-sage-2)" /></svg>;
+    case 'eye':
+      return <svg {...s}><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></svg>;
     case 'basket':
       return <svg {...s}><path d="M5 8h14l-1.5 11a2 2 0 0 1-2 1.7h-7a2 2 0 0 1-2-1.7Z" /><path d="M9 8a3 3 0 0 1 6 0" /></svg>;
     case 'bird':
@@ -104,3 +106,10 @@ export function GameIcon({ id, size = 34 }: { id: IconId; size?: number }) {
       return null;
   }
 }
+
+export const IconBulb = ({ size = 24, ...r }: P) => (
+  <svg {...base(size, r)}><path d="M9 18h6M10 21h4" /><path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z" /></svg>
+);
+export const IconMinus = ({ size = 24, ...r }: P) => (
+  <svg {...base(size, r)} strokeWidth={2.4}><path d="M5 12h14" /></svg>
+);

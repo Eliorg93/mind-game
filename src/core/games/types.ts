@@ -15,7 +15,7 @@ export type Domain =
 
 export type PlantKind = 'tulip' | 'sunflower' | 'lavender' | 'fern' | 'daisy';
 
-export type IconId = 'cards' | 'basket' | 'bird' | 'stones' | 'speech' | 'book' | 'pattern' | 'gate' | 'house' | 'map';
+export type IconId = 'cards' | 'eye' | 'basket' | 'bird' | 'stones' | 'speech' | 'book' | 'pattern' | 'gate' | 'house' | 'map';
 
 /**
  * Everything the app needs to know about a game without loading its code.

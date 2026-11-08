@@ -7,6 +7,12 @@ import type { GameComponent } from './types';
  * To add a game: create src/games/<id>/, export a default component, add it here.
  */
 export const GAME_COMPONENTS: Record<string, LazyExoticComponent<GameComponent>> = {
+  'picture-recall': lazy(() => import('./picture-recall/PictureRecallGame')),
+  'story-memory': lazy(() => import('./story-memory/StoryMemoryGame')),
+  'shopping-list': lazy(() => import('./shopping-list/ShoppingListGame')),
+  'word-garden': lazy(() => import('./word-garden/WordGardenGame')),
+  'where-is-it': lazy(() => import('./where-is-it/WhereIsItGame')),
+  'sequences-logic': lazy(() => import('./sequences-logic/SequencesLogicGame')),
   'memory-pairs': lazy(() => import('./memory-pairs/MemoryPairsGame')),
 };
 

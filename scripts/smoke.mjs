@@ -68,6 +68,8 @@ try {
     check(`${P} web app manifest (rtl, he, standalone, icons)`, manifest.dir === 'rtl' && manifest.lang === 'he' && manifest.display === 'standalone' && manifest.icons.length >= 3);
 
     await page.getByRole('link', { name: 'להתחיל את השגרה' }).click();
+    await page.getByText('פעילות 1 מתוך 3').waitFor();
+    await page.goto(BASE + '#/games/memory-pairs');
     await page.getByRole('heading', { name: 'גן הזוגות' }).waitFor();
     await shot('03-instructions');
     await page.getByRole('link', { name: 'להתחיל', exact: true }).click();

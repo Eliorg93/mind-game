@@ -1,0 +1,18 @@
+.room { list-style: none; margin: 0; padding: var(--space-3); display: grid; gap: var(--space-2); background: #F3EDE0; border-radius: var(--radius-lg); }
+html[data-contrast='high'] .room { background: #FFFFFF; border: 2px solid #000000; }
+.spot {
+  position: relative; min-block-size: 112px;
+  background: var(--c-surface); border: 2px solid var(--c-line); border-radius: var(--radius-sm);
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-start; gap: 2px;
+  padding: var(--space-2) var(--space-1); text-align: center; color: var(--c-ink);
+}
+.spot__name { font-size: var(--fs-small); font-weight: 700; line-height: 1.2; }
+.spot__obj { display: flex; flex-direction: column; align-items: center; font-size: 1rem; }
+.spot--has { border-color: var(--c-leaf); }
+.spot--btn { cursor: pointer; font: inherit; }
+.spot--btn:active { transform: scale(0.98); }
+.spot--wrong { border-style: dashed; border-color: #9A4F2C; background: #F6E3D6; opacity: 0.8; }
+.spot--dim { opacity: 0.3; }
+.spot--hint { border-color: #8A6A0E; border-width: 3px; background: #FBF1D6; }
+html[data-contrast='high'] .spot--hint { background: #FFFFFF; border-color: #000000; border-style: double; border-width: 4px; }
+.where-ask { display: flex; align-items: center; gap: var(--space-3); background: var(--c-sage); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); }

@@ -24,10 +24,11 @@ describe('MIND GARDEN app', () => {
     await onboard(user);
 
     await user.click(screen.getByRole('link', { name: 'להתחיל את השגרה' }));
+    expect(await screen.findByText('פעילות 1 מתוך 3')).toBeInTheDocument();
+    window.location.hash = '#/games/memory-pairs';
     expect(await screen.findByRole('heading', { name: 'גן הזוגות' })).toBeInTheDocument();
     expect(screen.getByText('לחצי על קלף כדי להפוך אותו.')).toBeInTheDocument();
-    expect(await screen.findByText('פעילות 1 מתוך 1')).toBeInTheDocument();
-    await user.click(screen.getByRole('link', { name: 'להתחיל' }));
+    await user.click(await screen.findByRole('link', { name: 'להתחיל' }));
 
     const board = await screen.findByRole('group', { name: 'לוח הקלפים' });
     const cards = within(board).getAllByTestId('pair-card');
@@ -45,21 +46,21 @@ describe('MIND GARDEN app', () => {
     await user.click(await screen.findByRole('link', { name: 'לסיום הפעילות' }));
 
     expect(await screen.findByRole('heading', { name: 'לבנדר' })).toBeInTheDocument();
-    expect(screen.getByText('השגרה של היום הושלמה. אפשר לחזור מחר.')).toBeInTheDocument();
-    await user.click(screen.getByRole('link', { name: 'לראות את הגינה' }));
+    expect(screen.getByText(/סיימת את גן הזוגות/)).toBeInTheDocument();
+    await user.click(screen.getAllByRole('link', { name: 'לראות את הגינה' })[0]!);
     expect(await screen.findByRole('heading', { name: 'הגינה שלי' })).toBeInTheDocument();
     expect(screen.getByText(/צמח אחד/)).toBeInTheDocument();
     expect(screen.getByText('תרגלת 1 מתוך 7 הימים האחרונים')).toBeInTheDocument();
 
     await user.click(screen.getByRole('link', { name: 'בית' }));
-    expect(await screen.findByRole('heading', { name: 'השגרה של היום הושלמה' })).toBeInTheDocument();
+    expect(await screen.findByRole('heading', { name: 'השגרה של היום' })).toBeInTheDocument();
   });
 
   it('keeps a game in progress after leaving, and offers to continue', async () => {
     const user = userEvent.setup();
     await onboard(user);
     await user.click(screen.getByRole('link', { name: 'לבחור משחק אחר' }));
-    await user.click(await screen.findByRole('link', { name: /גן הזוגות/ }));
+    await user.click(await screen.findByRole('link', { name: /^גן הזוגות/ }));
     await user.click(await screen.findByRole('link', { name: 'להתחיל' }));
     const cards = within(await screen.findByRole('group', { name: 'לוח הקלפים' })).getAllByTestId('pair-card');
     const items = cards.map((c) => c.getAttribute('data-item'));
@@ -115,9 +116,9 @@ describe('MIND GARDEN app', () => {
   it('redirects planned (not yet built) games back to the games list', async () => {
     const user = userEvent.setup();
     await onboard(user);
-    window.location.hash = '#/games/shopping-list';
+    window.location.hash = '#/games/garden-birds';
     expect(await screen.findByRole('heading', { name: 'במה נתרגל עכשיו?' })).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /סל השוק/ })).toBeNull();
-    expect(screen.getByText('סל השוק')).toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /ציפורים בגן/ })).toBeNull();
+    expect(screen.getByText('ציפורים בגן')).toBeInTheDocument();
   });
 });

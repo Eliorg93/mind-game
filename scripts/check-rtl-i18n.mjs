@@ -1,6 +1,7 @@
 // Guards two project rules (part 1):
 //  1. RTL-safe layout: no physical left/right CSS in app code (use logical properties).
-//  2. No hard-coded UI text: Hebrew letters may appear only in locale files.
+//  2. No hard-coded UI text: Hebrew letters may appear only in locale files (src/i18n/locales)
+//     and in game content packs (src/content/<lang>/), which are per-language by design.
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 
@@ -22,7 +23,7 @@ for (const f of files) {
   lines.forEach((line, i) => {
     const code = line.replace(/\/\/.*$|\/\*.*?\*\//g, '');
     if (physical.test(code)) problems.push(`${f.replace(root, 'src/')}:${i + 1}  physical left/right: ${line.trim()}`);
-    if (hebrew.test(code)) problems.push(`${f.replace(root, 'src/')}:${i + 1}  Hebrew text outside locale files: ${line.trim()}`);
+    if (hebrew.test(code) && !f.includes('/src/content/')) problems.push(`${f.replace(root, 'src/')}:${i + 1}  Hebrew text outside locale files: ${line.trim()}`);
   });
 }
 if (problems.length) {
