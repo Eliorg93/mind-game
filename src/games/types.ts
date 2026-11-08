@@ -15,6 +15,11 @@ export interface GameProps<S> {
   feedback: {
     tone: (t: 'tap' | 'match' | 'complete') => void;
   };
+  /** Personal support settings from the adaptation engine (part 5). */
+  support: {
+    /** Offer a hint after this many wrong tries on one item. */
+    hintOfferAfter: number;
+  };
 }
 
 export type GameComponent = ComponentType<GameProps<any>>;

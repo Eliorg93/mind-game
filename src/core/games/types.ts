@@ -37,4 +37,8 @@ export interface GameMeta {
 export interface GameResult {
   accuracy: number;
   completed: boolean;
+  /** Optional detail for personal adaptation (never shown as a score). */
+  items?: number;
+  hints?: number;
+  wrongTries?: number;
 }

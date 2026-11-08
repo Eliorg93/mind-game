@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { useT } from '@/app/state';
 import { OBJECT_NAMES, SPOT_AT, SPOT_NAMES, type SpotId } from '@/content/he/objects';
 import type { GameProps } from '../types';
-import { Actions, Feedback, HintButton, Progress, Review, usePraise } from '../kit/Kit';
+import { Actions, Feedback, HintButton, HintNudge, Progress, Review, usePraise } from '../kit/Kit';
 import { ObjectArt } from '../kit/ObjectArt';
 import { SpotArt } from '../kit/SpotArt';
-import { currentPlacement, firstTryCount, foundPlacements, guess, hint, isWhereState, newWhere, nextRound, retryRound, sessionAccuracy, startRecall, type WhereState } from './logic';
+import { currentPlacement, firstTryCount, foundPlacements, guess, hint, isWhereState, newWhere, nextRound, retryRound, sessionAccuracy, startRecall, whereStats, type WhereState } from './logic';
 import './where.css';
 
-export default function WhereIsItGame({ level, resume, onStateChange, onComplete, feedback }: GameProps<WhereState>) {
+export default function WhereIsItGame({ level, resume, onStateChange, onComplete, feedback, support }: GameProps<WhereState>) {
   const { t } = useT();
   const praise = usePraise();
   const [s, setS] = useState<WhereState>(() => (isWhereState(resume) ? resume : newWhere(level)));
@@ -27,7 +27,7 @@ export default function WhereIsItGame({ level, resume, onStateChange, onComplete
     if (s.phase === 'done' && !reported.current) {
       reported.current = true;
       feedback.tone('complete');
-      onComplete({ accuracy: sessionAccuracy(s), completed: true });
+      onComplete({ accuracy: sessionAccuracy(s), completed: true, ...whereStats(s) });
     }
   }, [s, onComplete, feedback]);
 
@@ -89,6 +89,7 @@ export default function WhereIsItGame({ level, resume, onStateChange, onComplete
       }
       set(res.state);
     };
+    const onHint = () => { set(hint(s)); setMsg({ text: t('games.where-is-it.hint'), tone: 'info' }); };
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
         {progress}
@@ -98,7 +99,7 @@ export default function WhereIsItGame({ level, resume, onStateChange, onComplete
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <span className="muted">{t('games.where-is-it.itemOf', { n: r.ask + 1, total: r.placements.length })}</span>
-          <HintButton onClick={() => { set(hint(s)); setMsg({ text: t('games.where-is-it.hint'), tone: 'info' }); }} disabled={!!r.narrowed} />
+          <HintButton onClick={onHint} disabled={!!r.narrowed} />
         </div>
         <div className="room" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }} role="group" aria-label={t('games.where-is-it.roomLabel')}>
           {r.spots.map((spot) => {
@@ -125,6 +126,7 @@ export default function WhereIsItGame({ level, resume, onStateChange, onComplete
           })}
         </div>
         {msg && <Feedback text={msg.text} tone={msg.tone} />}
+        {!r.narrowed && !r.current.hinted && r.current.wrongTries >= (support?.hintOfferAfter ?? 2) && <HintNudge onHint={onHint} />}
       </div>
     );
   }

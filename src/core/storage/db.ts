@@ -21,6 +21,18 @@ export interface SessionRecord {
   level: number;
   accuracy: number; // 0..1, used only for difficulty adaptation, never shown as a score
   plantKind: string;
+  items?: number;
+  hints?: number;
+  wrongTries?: number;
+  /** The adaptation decision made after this activity, and the player's answer to any offer. */
+  adapt?: {
+    from: number;
+    to: number;
+    change: 'up' | 'down' | 'same';
+    reason: string;
+    offer: 'challenge' | 'hints' | null;
+    response?: 'accepted' | 'declined' | 'kept';
+  };
 }
 
 export interface ProgressRecord {
@@ -28,6 +40,8 @@ export interface ProgressRecord {
   level: number;
   sessions: number;
   updatedAt: number;
+  /** Activities to wait before offering a challenge again (after "no thanks"). */
+  offerCooldown?: number;
 }
 
 export interface MemoryRecord {

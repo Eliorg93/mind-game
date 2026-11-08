@@ -80,3 +80,6 @@ html[data-contrast='high'] .clue { background: #FFFFFF; border-color: #000000; }
 .prompt-big { font-size: 1.625rem; font-weight: 700; line-height: 1.35; }
 .prompt-quote { font-family: var(--font-display); font-size: 1.75rem; line-height: 1.35; text-align: center; padding: var(--space-4); background: var(--c-surface); border-radius: var(--radius-md); border: 1px solid var(--c-line); }
 .item-label { font-weight: 700; }
+
+.kit-nudge { display: flex; flex-direction: column; gap: var(--space-2); align-items: flex-start; background: var(--c-sage); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); font-size: var(--fs-body); }
+html[data-contrast='high'] .kit-nudge { background: #FFFFFF; border: 2px solid #000000; }

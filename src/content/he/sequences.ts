@@ -48,4 +48,16 @@ export const SEQ_TEXT = {
   moneyPrompt: (a: number, b: number) => `בארנק היו ${a} שקלים. קנו לחם ב-${b} שקלים. כמה שקלים נשארו?`,
   timePrompt: (h: number, d: number) => `האוטובוס יוצא בשעה ${h}:00, והנסיעה נמשכת ${d === 1 ? 'שעה' : d === 2 ? 'שעתיים' : `${d} שעות`}. באיזו שעה מגיעים?`,
   timeOption: (h: number) => `${h}:00`,
+  explainOrder: (steps: string[]) => `הסדר הנכון: ${steps.join('; ואז ')}.`,
+  explainAdd: (step: number) => (step > 0 ? `בכל צעד מוסיפים ${step}.` : `בכל צעד מורידים ${-step}.`),
+  explainDouble: 'בכל צעד המספר גדל פי 2.',
+  explainList: (kind: 'days' | 'months' | 'letters', skip: boolean) =>
+    `${kind === 'days' ? 'ימי השבוע' : kind === 'months' ? 'חודשי השנה' : 'אותיות האלף-בית'} לפי הסדר${skip ? ', בדילוג על אחד' : ''}.`,
+  explainPattern: (motif: string[]) => `הדפוס חוזר על עצמו: ${motif.join(', ')}.`,
+  explainDay: (today: string, offset: number, ans: string) =>
+    offset === 1 ? `אחרי יום ${today} בא יום ${ans}.` : offset === -1 ? `לפני יום ${today} בא יום ${ans}.` : `סופרים ${offset} ימים קדימה מיום ${today}, ומגיעים ליום ${ans}.`,
+  explainSum: (a: number, b: number) => `${a} ועוד ${b} הם ${a + b}.`,
+  explainDiff: (a: number, b: number) => `${a} פחות ${b} הם ${a - b}.`,
+  explainTime: (h: number, d: number) => `${h}:00 ועוד ${d === 1 ? 'שעה' : d === 2 ? 'שעתיים' : `${d} שעות`} זה ${h + d}:00.`,
+  explainCompare: (a: string, b: string, c: string, more: string, ans: string, ask: string) => `${a} ${more} מ${b}, ו${b} ${more} מ${c}. לכן ${ans} ${ask}.`,
 };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAppState, useT } from '@/app/state';
 import { useInstall } from '@/app/pwa';
-import type { Address, Settings, TextSize } from '@/core/settings/settings';
+import type { Address, ChallengeStyle, Settings, TextSize } from '@/core/settings/settings';
 import { speechSupported } from '@/core/speech/speech';
 import { deleteAllData, exportData } from '@/core/storage/dataControl';
 import { BackLink, ConfirmSheet, Screen } from '@/ui/Layout';
@@ -9,6 +9,7 @@ import { IconDownload, IconPhoneAdd, IconTrash } from '@/ui/icons';
 
 const SIZES: TextSize[] = ['normal', 'large', 'xlarge'];
 const ADDRESSES: Address[] = ['female', 'male', 'neutral'];
+const STYLES: ChallengeStyle[] = ['calm', 'balanced', 'challenging'];
 
 export default function SettingsScreen() {
   const { t } = useT();
@@ -82,6 +83,19 @@ export default function SettingsScreen() {
             </div>
           );
         })}
+      </section>
+
+      <section className="card" aria-labelledby="pace-title" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>
+        <h2 id="pace-title" style={{ fontSize: 'var(--fs-body)', fontWeight: 700 }}>{t('settings.challenge')}</h2>
+        <div className="segmented" role="group" aria-labelledby="pace-title" aria-describedby="pace-desc">
+          {STYLES.map((c) => (
+            <button key={c} type="button" aria-pressed={settings.challenge === c} onClick={() => updateSettings({ challenge: c })}>
+              {t(`settings.challenges.${c}`)}
+            </button>
+          ))}
+        </div>
+        <p id="pace-desc" className="small" aria-live="polite">{t(`settings.challengeDesc.${settings.challenge}`)}</p>
+        <p className="muted small">{t('settings.challengeNote')}</p>
       </section>
 
       <section className="card" aria-labelledby="addr-title" style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)' }}>

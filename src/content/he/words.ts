@@ -92,4 +92,9 @@ export const WORD_TEXT = {
   synonymPrompt: (word: string) => `איזו מילה קרובה במשמעות למילה "${word}"?`,
   idiomPrompt: 'השלימו את הביטוי:',
   letterHint: (letter: string) => `המילה מתחילה באות ${letter}.`,
+  explainCategory: (plural: string, examples: string[]) => `קבוצת ה${plural}: ${examples.join(', ')}.`,
+  explainOdd: (plural: string, odd: string) => `שאר המילים הן ${plural}, ו"${odd}" לא.`,
+  explainDefinition: (word: string, definition: string) => `${word}: ${definition}.`,
+  explainIdiom: (full: string) => `הביטוי המלא: "${full}".`,
+  explainSynonym: (a: string, b: string) => `"${a}" ו"${b}" הן מילים קרובות במשמעות.`,
 };

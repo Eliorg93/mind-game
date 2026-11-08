@@ -99,6 +99,8 @@ try {
       await page.getByRole('link', { name: 'לסיום הפעילות' }).click();
       const planted = await page.getByText('צמח חדש נוסף לגינה שלך').waitFor({ timeout: 5000 }).then(() => true, () => false);
       check(`${P} ${id}: plays to the end and plants a plant`, planted);
+      if (planted) check(`${P} ${id}: finish screen shows a gentle suggestion`, await page.getByTestId('adapt-card').isVisible());
+      if (vp.name === 'se320' && planted) await page.screenshot({ path: `${SHOTS}${id}-9-finish.png`, fullPage: true });
       check(`${P} ${id}: fits the screen (no sideways scrolling)`, maxOverflow <= 1, `${maxOverflow}px`);
     }
     check(`${P} no console errors`, errors.length === 0, errors.slice(0, 2).join(' | '));

@@ -133,3 +133,27 @@ export function Review(props: { title: string; message?: string; children?: Reac
 export function Actions({ children }: { children: ReactNode }) {
   return <div className="kit-actions">{children}</div>;
 }
+
+/** Shown when someone is stuck: a friendly offer, never a judgement. */
+export function HintNudge({ onHint }: { onHint: () => void }) {
+  const { t } = useT();
+  return (
+    <div className="kit-nudge" role="note">
+      <span>{t('kit.nudge')}</span>
+      <button type="button" className="kit-tool" onClick={onHint}>
+        <IconBulb />
+        {t('kit.showHint')}
+      </button>
+    </div>
+  );
+}
+
+/** A short explanation after a question that took more than one try. */
+export function Explanation({ text }: { text: string }) {
+  const { t } = useT();
+  return (
+    <p className="clue" role="note">
+      <b>{t('kit.explainPrefix')}</b> {text}
+    </p>
+  );
+}

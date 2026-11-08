@@ -5,6 +5,7 @@ import { buildRoutine, nextInRoutine } from '@/core/routine/routine';
 import { getSession, listSessions } from '@/core/storage/progress';
 import { Screen } from '@/ui/Layout';
 import { PlantArt } from '@/ui/PlantArt';
+import { AdaptCard } from './AdaptCard';
 import type { PlantKind } from '@/core/games/types';
 
 export default function FinishScreen() {
@@ -50,6 +51,7 @@ export default function FinishScreen() {
           </div>
         )}
       </div>
+      {meta && <AdaptCard session={session} meta={meta} />}
       <div className="spacer" />
       {next ? (
         <>

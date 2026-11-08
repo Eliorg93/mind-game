@@ -2,6 +2,8 @@ import { kvGet, kvSet } from '../storage/db';
 
 export type TextSize = 'normal' | 'large' | 'xlarge';
 export type Address = 'female' | 'male' | 'neutral';
+import type { ChallengeStyle } from '../adaptive/personalization';
+export type { ChallengeStyle };
 
 export interface Settings {
   textSize: TextSize;
@@ -10,6 +12,8 @@ export interface Settings {
   autoReadInstructions: boolean;
   reduceMotion: boolean;
   address: Address;
+  /** How quickly games become more challenging (part 5). */
+  challenge: ChallengeStyle;
   language: 'he';
 }
 
@@ -20,6 +24,7 @@ export const DEFAULT_SETTINGS: Settings = {
   autoReadInstructions: false,
   reduceMotion: false,
   address: 'female', // decided in part 1: the first user is a woman; changeable in settings
+  challenge: 'balanced',
   language: 'he',
 };
 
@@ -37,6 +42,7 @@ export function sanitizeSettings(raw: unknown): Settings {
   if (typeof r.autoReadInstructions === 'boolean') s.autoReadInstructions = r.autoReadInstructions;
   if (typeof r.reduceMotion === 'boolean') s.reduceMotion = r.reduceMotion;
   if (r.address === 'female' || r.address === 'male' || r.address === 'neutral') s.address = r.address;
+  if (r.challenge === 'calm' || r.challenge === 'balanced' || r.challenge === 'challenging') s.challenge = r.challenge;
   return s;
 }
 

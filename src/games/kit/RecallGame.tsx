@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useT } from '@/app/state';
 import type { GameProps } from '../types';
 import { Actions, Choice, Feedback, HintButton, Progress, ReadAloud, Review, Toolbar, usePraise, type ChoiceState } from './Kit';
-import { check, hint, isRecallState, newRecall, nextRound, retryRound, roundResult, sessionAccuracy, startRecall, toggle, type RecallConfig, type RecallState } from './recallEngine';
+import { check, hint, recallStats, isRecallState, newRecall, nextRound, retryRound, roundResult, sessionAccuracy, startRecall, toggle, type RecallConfig, type RecallState } from './recallEngine';
 
 /**
  * Generic UI for "look, hide, pick what you saw". Each game supplies how items
@@ -37,7 +37,7 @@ export function RecallGame({ spec, level, resume, onStateChange, onComplete, fee
     if (s.phase === 'done' && !reported.current) {
       reported.current = true;
       feedback.tone('complete');
-      onComplete({ accuracy: sessionAccuracy(s), completed: true });
+      onComplete({ accuracy: sessionAccuracy(s), completed: true, ...recallStats(s) });
     }
   }, [s, onComplete, feedback]);
 
@@ -128,7 +128,7 @@ export function RecallGame({ spec, level, resume, onStateChange, onComplete, fee
       {progress}
       <Review
         title={perfect ? praise(s.roundIndex) : t('kit.recallResult', { hits: res.hits, total: res.total })}
-        message={perfect ? t('kit.recallPerfect') : res.misses > 0 ? t('kit.recallMissedNote') : t('kit.recallExtraNote')}
+        message={perfect ? t('kit.recallPerfect') : res.misses > 0 ? `${t('kit.recallMissedNote')}${res.hinted === 0 ? ` ${t('kit.recallHintSuggest')}` : ''}` : t('kit.recallExtraNote')}
         onRetry={() => { setMsg(null); set(retryRound(s)); }}
         onContinue={() => { setMsg(null); set(nextRound(spec.config, s)); }}
         continueLabel={last ? t('kit.finish') : t('kit.nextRound')}

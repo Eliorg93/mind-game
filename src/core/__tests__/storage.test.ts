@@ -42,9 +42,11 @@ describe('progress and sessions', () => {
   it('starts at the start level and adapts after a session', async () => {
     expect(await getLevel(meta)).toBe(1);
     await recordSession(meta, { startedAt: Date.now() - 120_000, level: 1, result: { accuracy: 1, completed: true } });
+    expect(await getLevel(meta)).toBe(1); // one good activity is not yet a trend
+    await recordSession(meta, { startedAt: Date.now() - 120_000, level: 1, result: { accuracy: 1, completed: true } });
     expect(await getLevel(meta)).toBe(2);
     const sessions = await listSessions();
-    expect(sessions).toHaveLength(1);
+    expect(sessions).toHaveLength(2);
     expect(sessions[0]!.plantKind).toBe('lavender');
     expect(sessions[0]!.durationMs).toBeGreaterThanOrEqual(120_000);
   });

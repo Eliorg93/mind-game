@@ -6,6 +6,8 @@
 import { byLevel, sample, shuffle, type Rng } from './random';
 import { selectionCredit } from './scoring';
 
+export interface RoundStats { items: number; hints: number; wrongTries: number }
+
 export interface RecallConfig {
   pool: readonly string[];
   targetsByLevel: readonly number[];
@@ -32,6 +34,8 @@ export interface RecallState {
   used: string[];
   round: RecallRound;
   credits: number[];
+  /** Per-round stats, used only for gentle personalization. */
+  stats?: RoundStats[];
 }
 
 function makeRound(cfg: RecallConfig, level: number, used: string[], rng: Rng): RecallRound {
@@ -92,7 +96,9 @@ export function check(s: RecallState): RecallState {
   const res = roundResult(s.round);
   const credits = s.credits.slice();
   credits[s.roundIndex] = selectionCredit({ targets: res.total, hits: res.hits, falseAlarms: res.falseAlarms, hinted: res.hinted });
-  return { ...s, phase: 'review', credits };
+  const stats = (s.stats ?? []).slice();
+  stats[s.roundIndex] = { items: res.total, hints: res.hinted, wrongTries: res.falseAlarms };
+  return { ...s, phase: 'review', credits, stats };
 }
 
 /** Same items again, freshly shuffled, back to the study step. */
@@ -116,4 +122,8 @@ export function isRecallState(x: unknown, pool: readonly string[]): x is RecallS
   if (!x || typeof x !== 'object') return false;
   const s = x as RecallState;
   return s.kind === 'recall' && !!s.round && Array.isArray(s.round.targets) && s.round.targets.every((t) => pool.includes(t)) && s.round.choices.every((t) => pool.includes(t));
+}
+
+export function recallStats(s: RecallState): RoundStats {
+  return (s.stats ?? []).filter(Boolean).reduce((a, b) => ({ items: a.items + b.items, hints: a.hints + b.hints, wrongTries: a.wrongTries + b.wrongTries }), { items: 0, hints: 0, wrongTries: 0 });
 }

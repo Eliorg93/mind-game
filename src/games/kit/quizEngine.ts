@@ -24,6 +24,8 @@ export interface QuizQuestion {
   hint: HintSpec;
   /** Optional visual payload rendered by the game (e.g. a shape pattern). */
   visual?: unknown;
+  /** Short explanation shown after the question was solved with extra tries or a hint. */
+  explain?: string;
 }
 
 export interface QuizCurrent {
@@ -133,3 +135,8 @@ export function isQuizState(x: unknown, game: string): x is QuizState {
   return s.kind === 'quiz' && s.game === game && Array.isArray(s.questions) && s.questions.length > 0 && !!s.cur;
 }
 
+
+/** Totals for the adaptation engine. */
+export function quizStats(s: QuizState): { items: number; hints: number; wrongTries: number } {
+  return { items: s.outcomes.length, hints: s.outcomes.filter((o) => o.hinted).length, wrongTries: s.outcomes.reduce((n, o) => n + o.wrongTries, 0) };
+}

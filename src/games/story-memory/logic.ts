@@ -16,6 +16,7 @@ export function storyQuestions(story: Story, rng: Rng): QuizQuestion[] {
       options: order.map((k) => sq.options[k] as string),
       answer: order.indexOf(sq.answer),
       hint: { kind: 'text', text: sq.clue },
+      explain: sq.clue,
     };
   });
 }

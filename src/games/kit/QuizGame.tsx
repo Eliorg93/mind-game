@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { useT } from '@/app/state';
 import type { GameProps } from '../types';
-import { Actions, Choice, Feedback, HintButton, Progress, ReadAloud, Review, Toolbar, usePraise, type ChoiceState } from './Kit';
-import { accuracy, answer, beginQuestions, currentQuestion, finish, firstTryCorrect, giveHint, isQuizState, next, retry, type QuizQuestion, type QuizState } from './quizEngine';
+import { Actions, Choice, Explanation, Feedback, HintButton, HintNudge, Progress, ReadAloud, Review, Toolbar, usePraise, type ChoiceState } from './Kit';
+import { accuracy, answer, beginQuestions, currentQuestion, finish, firstTryCorrect, giveHint, isQuizState, next, quizStats, retry, type QuizQuestion, type QuizState } from './quizEngine';
 
 export interface QuizGameSpec {
   gameId: string;
@@ -17,7 +17,7 @@ export interface QuizGameSpec {
   twoColumns?: (q: QuizQuestion) => boolean;
 }
 
-export function QuizGame({ spec, level, resume, onStateChange, onComplete, feedback }: GameProps<QuizState> & { spec: QuizGameSpec }) {
+export function QuizGame({ spec, level, resume, onStateChange, onComplete, feedback, support }: GameProps<QuizState> & { spec: QuizGameSpec }) {
   const { t } = useT();
   const praise = usePraise();
   const [s, setS] = useState<QuizState>(() => (isQuizState(resume, spec.gameId) ? resume : spec.create(level)));
@@ -35,7 +35,7 @@ export function QuizGame({ spec, level, resume, onStateChange, onComplete, feedb
     if (s.phase === 'done' && !reported.current) {
       reported.current = true;
       feedback.tone('complete');
-      onComplete({ accuracy: accuracy(s), completed: true });
+      onComplete({ accuracy: accuracy(s), completed: true, ...quizStats(s) });
     }
   }, [s, onComplete, feedback]);
 
@@ -141,6 +141,8 @@ export function QuizGame({ spec, level, resume, onStateChange, onComplete, feedb
       </div>
 
       {msg && <Feedback text={msg.text} tone={msg.tone} />}
+      {!c.solved && !c.hinted && c.wrongTotal >= support.hintOfferAfter && <HintNudge onHint={onHint} />}
+      {c.solved && (c.wrongTotal > 0 || c.hinted) && q.explain && !(c.hinted && q.hint.kind === 'text' && q.hint.text === q.explain) && <Explanation text={q.explain} />}
       {c.solved && (
         <Actions>
           <button type="button" className="btn btn--primary" onClick={() => { setMsg(null); set(next(s)); }}>

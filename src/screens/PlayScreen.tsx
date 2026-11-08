@@ -3,6 +3,7 @@ import { Link, Navigate, useParams, useSearchParams } from 'react-router-dom';
 import { useAppState, useLoad, useT } from '@/app/state';
 import { getGameMeta } from '@/core/games/catalog';
 import type { GameResult } from '@/core/games/types';
+import { PROFILES } from '@/core/adaptive/personalization';
 import { playTone } from '@/core/sound/sound';
 import { clearResume, getLevel, loadResume, recordSession, saveResume } from '@/core/storage/progress';
 import { GAME_COMPONENTS } from '@/games/registry';
@@ -39,6 +40,7 @@ export default function PlayScreen() {
   const init = frozen.current;
 
   const feedback = useMemo(() => ({ tone: (tone: 'tap' | 'match' | 'complete') => settings.sound && playTone(tone) }), [settings.sound]);
+  const support = useMemo(() => ({ hintOfferAfter: PROFILES[settings.challenge].hintOfferAfter }), [settings.challenge]);
 
   const onStateChange = useCallback(
     (state: unknown) => {
@@ -52,7 +54,7 @@ export default function PlayScreen() {
     async (result: GameResult) => {
       if (!meta || !init) return;
       try {
-        const s = await recordSession(meta, { startedAt: init.startedAt, level: init.level, result });
+        const s = await recordSession(meta, { startedAt: init.startedAt, level: init.level, result, style: settings.challenge });
         setSessionId(s.id);
         bumpData();
       } catch {
@@ -60,7 +62,7 @@ export default function PlayScreen() {
         setSessionId('unsaved');
       }
     },
-    [meta, init, bumpData],
+    [meta, init, bumpData, settings.challenge],
   );
 
   if (!meta || meta.status !== 'available' || !Game) return <Navigate to="/games" replace />;
@@ -74,7 +76,7 @@ export default function PlayScreen() {
       <h1 className="display" style={{ fontSize: '1.875rem' }}>{t(`games.${id}.title`)}</h1>
       {init ? (
         <Suspense fallback={<p className="muted">{t('play.loading')}</p>}>
-          <Game key={`${id}-${init.startedAt}`} level={init.level} resume={init.resume?.state} onStateChange={onStateChange} onComplete={onComplete} feedback={feedback} />
+          <Game key={`${id}-${init.startedAt}`} level={init.level} resume={init.resume?.state} onStateChange={onStateChange} onComplete={onComplete} feedback={feedback} support={support} />
         </Suspense>
       ) : (
         <p className="muted" aria-busy="true">{t('play.loading')}</p>

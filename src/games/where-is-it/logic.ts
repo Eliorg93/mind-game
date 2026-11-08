@@ -36,6 +36,7 @@ export interface WhereState {
   usedObjects: ObjectId[];
   round: WhereRound;
   credits: number[];
+  stats?: { items: number; hints: number; wrongTries: number }[];
 }
 
 function makeRound(level: number, used: ObjectId[], rng: Rng): WhereRound {
@@ -79,7 +80,9 @@ export function guess(s: WhereState, spot: SpotId): { state: WhereState; outcome
   if (done) {
     const credits = s.credits.slice();
     credits[s.roundIndex] = averageCredit(outcomes);
-    next = { ...next, phase: 'review', credits };
+    const stats = (s.stats ?? []).slice();
+    stats[s.roundIndex] = { items: outcomes.length, hints: outcomes.filter((o) => o.hinted).length, wrongTries: outcomes.reduce((n, o) => n + o.wrongTries, 0) };
+    next = { ...next, phase: 'review', credits, stats };
   }
   return { state: next, outcome: 'correct', placement: p };
 }
@@ -123,4 +126,8 @@ export function isWhereState(x: unknown): x is WhereState {
   if (!x || typeof x !== 'object') return false;
   const s = x as WhereState;
   return s.kind === 'where' && !!s.round && Array.isArray(s.round.placements) && s.round.placements.every((p) => PLACEABLE_OBJECTS.includes(p.obj) && SPOT_IDS.includes(p.spot));
+}
+
+export function whereStats(s: WhereState) {
+  return (s.stats ?? []).filter(Boolean).reduce((a, b) => ({ items: a.items + b.items, hints: a.hints + b.hints, wrongTries: a.wrongTries + b.wrongTries }), { items: 0, hints: 0, wrongTries: 0 });
 }

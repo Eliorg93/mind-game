@@ -70,7 +70,7 @@ describe('playing every game end to end', () => {
     await playRecallRound(user, names);
     await user.click(await screen.findByRole('button', { name: 'לסיים' }));
     await finishAndCheck(user, 'picture-recall');
-    expect(await getLevel(getGameMeta('picture-recall')!)).toBe(2);
+    expect(await getLevel(getGameMeta('picture-recall')!)).toBe(1); // the engine waits for a second strong activity
   });
 
   it('shopping list: reads the list, picks the products, partial result and finish', async () => {

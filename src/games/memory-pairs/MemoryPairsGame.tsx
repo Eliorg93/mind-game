@@ -36,7 +36,7 @@ export default function MemoryPairsGame({ level, resume, onStateChange, onComple
         setMsg(t('games.memory-pairs.msgDone'));
         if (!reported.current) {
           reported.current = true;
-          onComplete({ accuracy: accuracy(next), completed: true });
+          onComplete({ accuracy: accuracy(next), completed: true, items: next.matched.length, hints: 0, wrongTries: Math.max(0, next.attempts - next.matched.length) });
         }
       } else {
         feedback.tone('match');
