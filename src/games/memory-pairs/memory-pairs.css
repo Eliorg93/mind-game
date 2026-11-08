@@ -1,0 +1,19 @@
+.pairs { display: flex; flex-direction: column; gap: var(--space-4); }
+.pairs__grid { display: grid; gap: var(--space-3); }
+.pairs__card {
+  aspect-ratio: 3 / 4;
+  min-block-size: var(--tap-min);
+  border-radius: 18px;
+  border: 2px solid var(--c-sage-2);
+  background: var(--c-sage);
+  display: flex; align-items: center; justify-content: center;
+  padding: 0; cursor: pointer;
+  transition: transform calc(150ms * var(--motion)) ease;
+}
+.pairs__card:active { transform: scale(0.97); }
+.pairs__card.is-up { background: var(--c-surface); border-color: var(--c-sage-3); }
+.pairs__card.is-matched { border-color: var(--c-leaf); border-width: 3px; }
+.pairs__grid[data-cards='4'] .pairs__card { aspect-ratio: 1 / 1; }
+.pairs__msg { min-block-size: 2em; text-align: center; font-size: var(--fs-lead); font-weight: 600; color: var(--c-primary); }
+.card-face { animation: card-pop calc(260ms * var(--motion)) ease-out both; }
+@keyframes card-pop { from { transform: scale(0.85); opacity: 0.3; } to { transform: none; opacity: 1; } }

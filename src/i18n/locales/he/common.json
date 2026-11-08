@@ -1,0 +1,87 @@
+{
+  "app": {
+    "name": "MIND GARDEN",
+    "tagline": "גינה אישית למחשבה"
+  },
+  "nav": {
+    "label": "ניווט ראשי",
+    "home": "בית",
+    "garden": "הגינה",
+    "memories": "זיכרונות"
+  },
+  "actions": {
+    "settings": "הגדרות",
+    "back": "חזרה",
+    "exit": "יציאה",
+    "close": "סגירה",
+    "cancel": "ביטול",
+    "instructions": "הוראות",
+    "reload": "לטעון מחדש",
+    "toHome": "לחזור לבית"
+  },
+  "greeting": {
+    "morning": "בוקר טוב",
+    "noon": "צהריים טובים",
+    "evening": "ערב טוב",
+    "night": "לילה טוב"
+  },
+  "welcome": {
+    "title": "ברוכים הבאים לגינה שלך",
+    "title_female": "ברוכה הבאה לגינה שלך",
+    "title_male": "ברוך הבא לגינה שלך",
+    "body": "כאן מחכות לך פעילויות קצרות לזיכרון, לקשב ולשפה. עם כל פעילות הגינה שלך גדלה.",
+    "point1": "כ-10 דקות ביום, בקצב שלך",
+    "point2": "המשחקים מתאימים את עצמם לקצב שלך",
+    "point3": "הכול נשמר רק בטלפון שלך",
+    "start": "בואו נתחיל",
+    "start_female": "בואי נתחיל",
+    "start_male": "בוא נתחיל",
+    "accessibility": "להגדיל טקסט ולהתאים נגישות",
+    "illustration": "איור של גינה קטנה עם צמחים ופרחים"
+  },
+  "home": {
+    "routineTitle": "השגרה של היום",
+    "routineMeta_one": "פעילות אחת · כ-{{minutes}} דקות",
+    "routineMeta_two": "שתי פעילויות · כ-{{minutes}} דקות",
+    "routineMeta_many": "{{count}} פעילויות · כ-{{minutes}} דקות",
+    "routineMeta_other": "{{count}} פעילויות · כ-{{minutes}} דקות",
+    "start": "להתחיל את השגרה",
+    "continue": "להמשיך בשגרה",
+    "itemDone": "הושלם",
+    "doneTitle": "השגרה של היום הושלמה",
+    "doneBody": "אפשר לחזור מחר, או לשחק עוד משחק אם מתחשק.",
+    "gardenSummary_one": "בגינה שלך צמח אחד",
+    "gardenSummary_two": "בגינה שלך שני צמחים",
+    "gardenSummary_many": "בגינה שלך {{count}} צמחים",
+    "gardenSummary_other": "בגינה שלך {{count}} צמחים",
+    "gardenEmpty": "הגינה מחכה לצמח הראשון",
+    "practiced": "תרגלת {{count}} מתוך 7 הימים האחרונים",
+    "practicedNone": "כל פעילות שמסתיימת שותלת צמח",
+    "otherGame": "לבחור משחק אחר",
+    "resumeTitle": "יש משחק שלא הסתיים",
+    "resumeAction": "להמשיך מאיפה שעצרת"
+  },
+  "status": {
+    "offline": "אין חיבור לאינטרנט. האפליקציה ממשיכה לעבוד כרגיל.",
+    "updateReady": "גרסה חדשה של האפליקציה מוכנה.",
+    "updateAction": "לעדכן עכשיו",
+    "storageUnavailable": "הדפדפן הזה לא מאפשר לשמור נתונים, אולי בגלל מצב גלישה פרטית. אפשר להשתמש באפליקציה, אבל ההתקדמות לא תישמר."
+  },
+  "errors": {
+    "boundaryTitle": "משהו השתבש",
+    "boundaryBody": "המידע שלך שמור. אפשר לטעון את האפליקציה מחדש.",
+    "notFound": "המסך הזה לא נמצא"
+  },
+  "plants": {
+    "tulip": "צבעוני",
+    "sunflower": "חמנייה",
+    "lavender": "לבנדר",
+    "fern": "שרך",
+    "daisy": "חיננית"
+  },
+  "minutes_one": "דקה אחת",
+  "minutes_two": "שתי דקות",
+  "minutes_many": "{{count}} דקות",
+  "minutes_other": "{{count}} דקות",
+  "lessThanMinute": "פחות מדקה"
+}

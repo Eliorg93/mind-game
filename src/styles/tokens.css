@@ -1,0 +1,71 @@
+/* Design tokens from the approved design (part 2). Only logical properties are used
+   across the app, so the layout mirrors automatically for a future LTR language. */
+:root {
+  --c-bg: #FAF6EC;
+  --c-surface: #FFFDF8;
+  --c-ink: #1E2A21;
+  --c-ink-2: #4B5A4F;
+  --c-line: #E2DACB;
+  --c-primary: #24482D;
+  --c-primary-ink: #FFFFFF;
+  --c-leaf: #3D6B47;
+  --c-sage: #E3ECDD;
+  --c-sage-2: #CFDFC6;
+  --c-sage-3: #9DB596;
+  --c-blossom: #C9744D;
+  --c-sun: #D9A21B;
+  --c-lavender: #7A5EA8;
+  --c-overlay: rgba(30, 42, 33, 0.38);
+  --c-focus: #1F6FD1;
+  --shadow-card: 0 6px 24px rgba(36, 72, 45, 0.10);
+
+  --font-ui: 'Assistant', system-ui, sans-serif;
+  --font-display: 'Frank Ruhl Libre', 'Assistant', serif;
+
+  /* Type scale in rem: everything grows with the text-size setting (html font-size). */
+  --fs-display: 2.125rem;
+  --fs-title: 1.625rem;
+  --fs-lead: 1.3125rem;
+  --fs-body: 1.25rem;
+  --fs-small: 1.0625rem;
+
+  --radius-lg: 28px;
+  --radius-md: 20px;
+  --radius-sm: 16px;
+  --tap-min: 56px;
+  --btn-h: 64px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --nav-h: 76px;
+  --motion: 1;
+}
+
+html[data-text-size='large'] { font-size: 112.5%; }
+html[data-text-size='xlarge'] { font-size: 125%; }
+
+html[data-contrast='high'] {
+  --c-bg: #FFFFFF;
+  --c-surface: #FFFFFF;
+  --c-ink: #000000;
+  --c-ink-2: #1A1A1A;
+  --c-line: #000000;
+  --c-primary: #0F2E17;
+  --c-leaf: #0F2E17;
+  --c-sage: #DCEAD3;
+  --c-sage-2: #A9C59D;
+  --shadow-card: none;
+}
+
+html[data-motion='reduce'] { --motion: 0; }
+html[data-motion='reduce'] *,
+html[data-motion='reduce'] *::before,
+html[data-motion='reduce'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
